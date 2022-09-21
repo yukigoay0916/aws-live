@@ -63,10 +63,11 @@
           </ul>
 
         </nav>
+	      <form action="/test" autocomplete="on" method = "POST" enctype="multipart/form-data">
+
 <div class="bg-contact100" style="background-image: url('images/bg-01.jpg');">
 		<div class="container-contact100">
 			<div class="wrap-contact100" style="position:static">
-<form action="/test" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
 				<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
 
@@ -84,7 +85,7 @@
 
 		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button>
 
-			</form>
+			
                                 <div class="contact100-pic js-tilt" data-tilt>
 <a href="/add/"><img src="{{url for('static', filename="images/cus.png")}}"alt="Staff Maintenance" /></a>
  <div class="desc1"><h2>Customer</h2></div>
@@ -105,11 +106,12 @@
                                    <a href="sqlMaintenance.php"><img src="{{url for('static', filename="images/sql.png")}}" alt="sql Maintenance" /></a>
                                     <div class="desc1"><h2>SQL Connect</h2></div>
                                 </div>
+	
                         </div>
                 </div>
 	</div>  
 
-
+</form>
   </div>
     <!-- End of Content Wrapper -->
 
