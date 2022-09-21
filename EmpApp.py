@@ -78,7 +78,7 @@ def test():
         cursor.close()
 
     print("all modification done...")
-    return render_template('test.html', name=emp_name)
+    return render_template('AddEmpOutput.html', name=emp_name)
 
 
 if __name__ == '__main__':
