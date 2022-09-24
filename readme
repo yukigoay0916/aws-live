@@ -9,7 +9,7 @@ cd aws-live
 sudo pip3 install flask
 sudo pip3 install pymysql
 sudo pip3 install boto3
-python3 EmployeeManagement.py
+python3 EmpApp.py
 
 
 
