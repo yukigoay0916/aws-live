@@ -31,53 +31,53 @@ def about():
     return render_template('www.intellipaat.com')
 
 
-@app.route("/addemp", methods=['POST'])
-def AddEmp():
+@app.route("/emp/", methods=['POST'])
+def Emp():
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
-    pri_skill = request.form['pri_skill']
+    education = request.form['education']
     location = request.form['location']
-    emp_image_file = request.files['emp_image_file']
-
-    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
+    emp_image_file = request.form['emp_image_file'] 
+    
+    check_in = ''
+    insert_sql = "INSERT INTO employee VALUES (%d, %s, %s, %s, %s, %s)"
+    emp_id ="SELECT COUNT(emp_id) form employee"
     cursor = db_conn.cursor()
-
+    
     if emp_image_file.filename == "":
         return "Please select a file"
-
+    
     try:
-
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(insert_sql, (emp_id+1, first_name, last_name, education, location, check_in))
         db_conn.commit()
-        emp_name = "" + first_name + " " + last_name
-        # Uplaod image file in S3 #
+        emp_name = "" + first_name +" " + last_name
+        
+        # Upload image file to S3 
         emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
         s3 = boto3.resource('s3')
-
+        
         try:
-            print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, Body=emp_image_file)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
+            print("Data inserted in MySQL RDS... uploading image to S3... ")
+            s3.Bucket(custombucket).put_object(Key = emp_image_file_name_in_s3, Body = emp_image_file)
+            bucket_location = boto3.client('S3').get_bucket_location(Bucket=customBucket) 
             s3_location = (bucket_location['LocationConstraint'])
-
+            
             if s3_location is None:
                 s3_location = ''
-            else:
-                s3_location = '-' + s3_location
+                
+            else: 
+                s3_location = '-' + s3_location 
+                
+            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(s3_location, custombucket, emp_image_file_name_in_s3)
 
-            object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-                s3_location,
-                custombucket,
-                emp_image_file_name_in_s3)
-
-        except Exception as e:
+      except Exception as e:
             return str(e)
-
+    
     finally:
         cursor.close()
-
-    print("all modification done...")
+        
+    print("all modification done... ")
     return render_template('AddEmpOutput.html', name=emp_name)
 
 
